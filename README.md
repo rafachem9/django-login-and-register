@@ -59,6 +59,8 @@ windows
 py -m venv env
 ```
 
+
+
 And tell pip to install all of the packages in this file using the -r flag:
 
 unix / mac
@@ -78,6 +80,17 @@ py -m pip install -r requirements.txt
 1. Edit `core/settings.py` if you want to develop the project.
 
 2. Create .env file in `core/` and add your environment variable
+   1. El archivo .env tiene que contener lo siguiente:
+      ```python
+            SECRET_KEY=prueba
+            EMAIL_HOST=smtp.gmail.com
+            SERVER_EMAIL=server_mail@gmail.com
+            EMAIL_HOST_USER=host_mail@gmail.com
+            EMAIL_HOST_PASSWORD=host_mail_password
+  
+            DEFAULT_FROM_EMAIL=prueba@gmail.com
+            EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+      ```
 
 3. Apply migrations
 

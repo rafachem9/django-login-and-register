@@ -27,6 +27,13 @@ from .utils import (
     send_reset_password_code,
 )
 from .decorators import only_authenticated_user, redirect_authenticated_user
+from django.http import HttpResponse
+
+
+@only_authenticated_user
+def index(request):
+    return render(request, 'users/test.html')
+
 
 @only_authenticated_user
 def home_view(request):

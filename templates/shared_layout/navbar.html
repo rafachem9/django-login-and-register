@@ -10,17 +10,30 @@
             <a class="nav-link" href="{%url 'users:home'%}">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{%url 'users:logout'%}">Logout</a>
+        <a class="nav-link" href="{%url 'users:test'%}">Test</a>
         </li>
         {%else%}
         <li class="nav-item">
             <a class="nav-link" href="{%url 'users:login'%}">Login</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{%url 'users:register'%}">register</a>
-        </li>
+
         {%endif%}
       </ul>
+   </div>
+
+         <div class="nav navbar-nav navbar-right" id="navbarNav">
+          <ul class="navbar-nav">
+            {%if user.is_authenticated%}
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'users:register'%}">Register</a>
+          </li>
+          <li class="nav-item">
+                <a class="nav-link" href="{%url 'users:logout'%}">Logout</a>
+          </li>
+              {%endif%}
+
+      </ul>
+
     </div>
   </nav>
   
