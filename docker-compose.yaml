@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - SECRET_KEY=prueba
+      - EMAIL_HOST=smtp.gmail.com
+      - SERVER_EMAIL=server_mail@gmail.com
+      - EMAIL_HOST_USER=host_mail@gmail.com
+      - EMAIL_HOST_PASSWORD=host_mail_password
+      - DEFAULT_FROM_EMAIL=prueba@gmail.com
+      - EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+    depends_on:
+      - db

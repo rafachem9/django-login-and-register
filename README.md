@@ -101,3 +101,69 @@ Just run this command:
 ``` python
 python manage.py runserver
 ```
+
+## Ejecución con docker:
+- Se ha seguido este tutorial: https://docs.docker.com.zh.xy2401.com/v17.09/compose/django/#create-a-django-project
+- Create Dockerfile:
+    ```dockerfile
+     FROM python:3
+     ENV PYTHONUNBUFFERED 1
+     RUN mkdir /code
+     WORKDIR /code
+     ADD requirements.txt /code/
+     RUN pip install -r requirements.txt
+     ADD . /code/
+    ```
+- Create requirements.txt
+    ```text
+     Django>=1.8,<2.0
+     psycopg2
+    ```
+- Create a file called docker-compose.yml in your project directory
+    ```yaml
+    services:
+      db:
+        image: postgres
+        volumes:
+          - ./data/db:/var/lib/postgresql/data
+        environment:
+          - POSTGRES_DB=postgres
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+      web:
+        build: .
+        command: python manage.py runserver 0.0.0.0:8000
+        volumes:
+          - .:/code
+        ports:
+          - "8000:8000"
+        environment:
+          - POSTGRES_NAME=postgres
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+          - SECRET_KEY=prueba
+          - EMAIL_HOST=smtp.gmail.com
+          - SERVER_EMAIL=server_mail@gmail.com
+          - EMAIL_HOST_USER=host_mail@gmail.com
+          - EMAIL_HOST_PASSWORD=host_mail_password
+          - DEFAULT_FROM_EMAIL=prueba@gmail.com
+          - EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+        depends_on:
+          - db
+    ```
+- It is necessary to create a Django project to execute de yaml
+- in settings.py, modify ALLOWED_HOSTS:
+    ```python
+    ALLOWED_HOSTS = ['127.0.0.1']
+    ```
+- enviroment variables when working in terminal:
+    ```text
+    export SECRET_KEY=prueba
+    export EMAIL_HOST=smtp.gmail.com
+    export SERVER_EMAIL=server_mail@gmail.com
+    export EMAIL_HOST_USER=host_mail@gmail.com
+    export EMAIL_HOST_PASSWORD=host_mail_password
+    export DEFAULT_FROM_EMAIL=prueba@gmail.com
+    export EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+    ```
+- Execute: `docker-compose up`
